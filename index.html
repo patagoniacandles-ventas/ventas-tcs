@@ -1,0 +1,331 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Ventas TCS</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#1b2321">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ventas TCS">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="robots" content="noindex,nofollow">
+</head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column for the phone — sticky header + segment chips, KPI tiles, then the store ranking. */
+:root{
+  --bg:#f3f4f2; --surface:#ffffff; --ink:#1b2321; --muted:#5f6b67; --line:#dde2df;
+  --accent:#c77a14; --accent-soft:#f6e7cf;
+  --up:#1f7a4d; --up-soft:#dcefe4; --down:#b3361f; --down-soft:#f6ded8; --flat:#6b7471; --flat-soft:#e8ebe9;
+  --bar:#cfd8d4;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121715; --surface:#1b2220; --ink:#e9eeec; --muted:#9aa6a1; --line:#2c3633;
+  --accent:#e9a23b; --accent-soft:#3a2c17;
+  --up:#5fcf95; --up-soft:#173327; --down:#f08a74; --down-soft:#3b1f19; --flat:#a3aca8; --flat-soft:#262e2b;
+  --bar:#33403c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121715; --surface:#1b2220; --ink:#e9eeec; --muted:#9aa6a1; --line:#2c3633;
+  --accent:#e9a23b; --accent-soft:#3a2c17;
+  --up:#5fcf95; --up-soft:#173327; --down:#f08a74; --down-soft:#3b1f19; --flat:#a3aca8; --flat-soft:#262e2b;
+  --bar:#33403c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.4;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 10px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--f-display);font-stretch:80%;font-weight:800;font-size:1.5rem;letter-spacing:.01em;margin:0;text-transform:uppercase}
+h1 .flame{color:var(--accent)}
+.asof{font-family:var(--f-num);font-size:.8rem;color:var(--muted)}
+.fresh{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--up);flex:none}
+.dot.old{background:var(--accent)}
+nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-inline:-2px;padding:2px}
+nav::-webkit-scrollbar{display:none}
+nav button{font:inherit;font-size:.85rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  padding:7px 13px;border-radius:999px;white-space:nowrap;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.seg-list{display:flex;flex-direction:column;gap:10px}
+.seg-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;cursor:pointer;text-align:left;font:inherit;color:inherit;width:100%}
+.seg-card.total{border-color:var(--ink)}
+.seg-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.seg-name{font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.05rem}
+.seg-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.big{font-size:1.35rem;font-weight:500}
+.mid{font-size:1rem}
+.pill{display:inline-flex;align-items:center;gap:3px;font-family:var(--f-num);font-size:.8rem;font-weight:500;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.up{background:var(--up-soft);color:var(--up)}
+.pill.down{background:var(--down-soft);color:var(--down)}
+.pill.flat{background:var(--flat-soft);color:var(--flat)}
+.note{font-size:.78rem;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi .sub{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.goal{grid-column:1/-1}
+.track{height:10px;background:var(--bar);border-radius:6px;overflow:hidden;position:relative}
+.fill{height:100%;background:var(--accent);border-radius:6px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmp>div{display:flex;flex-direction:column;gap:2px}
+.ideal-num{color:var(--muted)}
+.track{overflow:visible}
+.ideal-mark{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1.5px;background:var(--ink);border-radius:2px}
+.ideal-line{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.ideal-line b{color:var(--ink);font-weight:500}
+.loc-ideal{align-items:center;flex-wrap:wrap}
+.loc-ideal .pill{font-size:.72rem;padding:1px 6px}
+.goal-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+h2{font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.1rem;margin:0}
+.rank-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.sort{display:flex;gap:4px}
+.sort button{font:inherit;font-size:.75rem;border:1px solid var(--line);background:transparent;color:var(--muted);padding:4px 9px;border-radius:6px;cursor:pointer}
+.sort button[aria-pressed="true"]{color:var(--ink);border-color:var(--ink);font-weight:600}
+ol.rank{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+ol.rank li{display:grid;grid-template-columns:1.6rem 1fr auto;gap:4px 10px;padding:11px 12px;border-top:1px solid var(--line);align-items:center}
+ol.rank li:first-child{border-top:0}
+.pos{font-family:var(--f-num);font-size:.8rem;color:var(--muted)}
+.loc{font-weight:600;font-size:.92rem;min-width:0;overflow-wrap:anywhere}
+.loc-bar{grid-column:2/4;height:4px;background:var(--flat-soft);border-radius:3px;overflow:hidden}
+.loc-bar span{display:block;height:100%;background:var(--bar)}
+.loc-nums{grid-column:2/4;display:flex;justify-content:space-between;gap:8px;font-size:.8rem;color:var(--muted)}
+.loc-nums b{color:var(--ink);font-weight:500}
+li.zero{opacity:.55}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:6px}
+.empty h2{font-size:1.05rem}
+.lock{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.lock input[type=password]{font:inherit;font-size:1rem;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.lock input[type=password]:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.remember{display:flex;gap:8px;align-items:center;font-size:.85rem;color:var(--muted)}
+.lock button{font:inherit;font-weight:700;font-size:.95rem;padding:12px;border:0;border-radius:8px;background:var(--ink);color:var(--bg);cursor:pointer}
+.lock button:disabled{opacity:.6;cursor:wait}
+.err{color:var(--down);font-size:.85rem;min-height:1.2em;margin:0}
+footer{font-size:.75rem;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="top">
+      <h1>Ventas <span class="flame">TCS</span></h1>
+      <span class="asof" id="asof">Esperando datos…</span>
+    </div>
+    <div class="fresh" id="fresh"><span class="dot old"></span><span>Conectando…</span></div>
+    <nav id="tabs" role="tablist"></nav>
+  </header>
+  <main id="view" class="wrap" style="gap:16px">
+    <div class="empty">
+      <h2>Cargando el resumen</h2>
+      <p class="note">Esta página muestra la solapa “Resumen Móvil” del Excel TCS Venta Locales. Se actualiza sola varias veces por día.</p>
+    </div>
+  </main>
+  <footer id="foot"></footer>
+</div>
+
+<!--SNAP-START--><script type="application/json" id="snap">{"v":1,"salt":"20wRVsV4l7z2zLWwWGARsQ==","iter":600000,"iv":"hMCPWJzAOBrVs4Jw","ct":"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"}</script><!--SNAP-END-->
+<script>
+const TABS=[{id:'resumen',label:'Resumen'}];
+let DATA=null, tab='resumen', sortBy='mtd';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const nf=(d)=>new Intl.NumberFormat('es-AR',{minimumFractionDigits:d,maximumFractionDigits:d});
+function money(v){
+  if(v==null||isNaN(v))return '–';
+  const a=Math.abs(v);
+  if(a>=1e9) return '$ '+nf(2).format(v/1e9)+' mil M';
+  if(a>=1e7) return '$ '+nf(1).format(v/1e6)+' M';
+  if(a>=1e6) return '$ '+nf(2).format(v/1e6)+' M';
+  if(a>=1e3) return '$ '+nf(0).format(v/1e3)+' k';
+  return '$ '+nf(0).format(v);
+}
+const full=v=>v==null?'–':'$ '+nf(0).format(v);
+const int=v=>v==null?'–':nf(0).format(v);
+const pct=v=>v==null?'–':nf(1).format(v*100)+'%';
+function pill(v){
+  if(v==null||isNaN(v))return '<span class="pill flat">s/d</span>';
+  const c=v>0.0005?'up':v<-0.0005?'down':'flat';
+  const arrow=c==='up'?'▲':c==='down'?'▼':'■';
+  return `<span class="pill ${c}">${arrow} ${(v>0?'+':'')+nf(1).format(v*100)}%</span>`;
+}
+function ago(iso){
+  if(!iso)return '';
+  const m=Math.round((Date.now()-new Date(iso).getTime())/60000);
+  if(m<1)return 'recién';
+  if(m<60)return `hace ${m} min`;
+  const h=Math.round(m/60); if(h<48)return `hace ${h} h`;
+  return `hace ${Math.round(h/24)} días`;
+}
+function fmtDateTime(iso){
+  try{return new Date(iso).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}catch(e){return iso}
+}
+function shortSeg(n){return n.replace('Argentina Propios','ARG Propios')}
+
+function renderTabs(){
+  const segs=(DATA?.segments||[]).map(s=>({id:slug(s.name),label:shortSeg(s.name)}));
+  const all=[...TABS,...segs];
+  if(!all.find(t=>t.id===tab))tab='resumen';
+  $('#tabs').innerHTML=all.map(t=>`<button role="tab" id="tab-${t.id}" aria-selected="${t.id===tab}" data-tab="${t.id}">${esc(t.label)}</button>`).join('');
+}
+function go(id){tab=id;try{history.replaceState(null,'','#'+id)}catch(e){}render();window.scrollTo({top:0})}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b)go(b.dataset.tab)});
+
+function renderResumen(){
+  const segMap=Object.fromEntries((DATA.segments||[]).map(s=>[slug(s.name),s]));
+  const cards=(DATA.summary||[]).map(r=>{
+    const key=slug(r.name.replace(/\s*\(.*\)/,''));
+    const target=segMap[key]?key:'';
+    const isTot=/^total/i.test(r.name);
+    return `<button class="seg-card${isTot?' total':''}" ${target?`data-go="${target}"`:''} type="button">
+      <div class="seg-head"><span class="seg-name">${esc(r.name)}</span>${pill(r.growth)}</div>
+      <div class="seg-row">
+        <div><div class="label">Acum. mes</div><div class="num big">${money(r.mtd)}</div></div>
+        <div><div class="label">Venta día</div><div class="num big">${money(r.day)}</div></div>
+      </div>
+      ${segMap[key]?.kpis?.ideal?`<div class="ideal-line"><span>Cumpl. <b class="num">${pct(segMap[key].kpis.ideal.real)}</b></span><span>Ideal <b class="num">${pct(segMap[key].kpis.ideal.ideal)}</b></span>${gapPill(segMap[key].kpis.ideal.real,segMap[key].kpis.ideal.ideal)}</div>`:''}
+    </button>`}).join('');
+  return `<section class="seg-list">${cards}</section>
+    <p class="note">${esc(DATA.currencyNote||'')} El % compara el acumulado del mes contra el año anterior.</p>`;
+}
+
+function gapPill(real,ideal){
+  if(real==null||ideal==null)return '';
+  const d=(real-ideal)*100, c=d>0.05?'up':d<-0.05?'down':'flat';
+  return `<span class="pill ${c}">${d>0?'+':''}${nf(1).format(d)} pp vs ideal</span>`;
+}
+function goalIdeal(k,obj){
+  const g=k.ideal, real=g.real??k.cumplimiento?.mtd, ideal=g.ideal;
+  const w=v=>Math.max(0,Math.min(100,(v||0)*100));
+  return `<div class="kpi goal">
+    <div class="goal-row"><span class="label">Objetivo del mes</span><span class="num mid">${full(obj)}</span></div>
+    <div class="cmp">
+      <div><span class="label">Cumplimiento real</span><span class="num big">${pct(real)}</span></div>
+      <div><span class="label">Ideal a la fecha</span><span class="num big ideal-num">${pct(ideal)}</span></div>
+    </div>
+    <div class="track" role="img" aria-label="Real ${pct(real)}, ideal ${pct(ideal)}"><div class="fill" style="width:${w(real)}%"></div><span class="ideal-mark" style="left:${w(ideal)}%"></span></div>
+    <div class="goal-row">${gapPill(real,ideal)}<span class="note">Barra = real · línea = ideal · GAP mensual ${esc(g.mes||'')} ${esc(g.anio||'')}</span></div>
+  </div>`;
+}
+function renderSeg(s){
+  const k=s.kpis||{}, cur=s.currency;
+  const obj=k.objetivo?.mtd, cum=k.cumplimiento?.mtd;
+  const ldate=s.lastDate?new Date(s.lastDate+'T12:00:00').toLocaleDateString('es-AR',{weekday:'short',day:'2-digit',month:'2-digit'}):'–';
+  const locs=[...(s.locales||[])];
+  locs.sort((a,b)=>sortBy==='growth'?((b.growth??-99)-(a.growth??-99)):sortBy==='day'?((b.day??0)-(a.day??0)):((b.mtd??0)-(a.mtd??0)));
+  const max=Math.max(1,...locs.map(l=>l.mtd||0));
+  return `
+  <section class="kpis">
+    <div class="kpi"><span class="label">Venta día</span><span class="num big">${money(k.venta?.day)}</span><span class="sub">${pill(k.crec?.day)} vs año ant.</span></div>
+    <div class="kpi"><span class="label">Acum. mes</span><span class="num big">${money(k.venta?.mtd)}</span><span class="sub">${pill(k.crec?.mtd)} vs año ant.</span></div>
+    <div class="kpi"><span class="label">Tickets</span><span class="num mid">${int(k.tickets?.day)} <small class="note">día</small></span><span class="num mid">${int(k.tickets?.mtd)} <small class="note">mes</small></span></div>
+    <div class="kpi"><span class="label">Ticket promedio</span><span class="num mid">${money(k.ticketProm?.day)} <small class="note">día</small></span><span class="num mid">${money(k.ticketProm?.mtd)} <small class="note">mes</small></span></div>
+    ${k.ideal?goalIdeal(k,obj):`<div class="kpi goal">
+      <div class="goal-row"><span class="label">Objetivo del mes</span><span class="num mid">${full(obj)}</span></div>
+      <div class="track" role="img" aria-label="Cumplimiento ${pct(cum)}"><div class="fill" style="width:${Math.max(0,Math.min(100,(cum||0)*100))}%"></div></div>
+      <div class="goal-row"><span class="sub">${esc(k.cumplimiento?.label||'Cumplimiento')}</span><span class="num mid"><b>${pct(cum)}</b></span></div>
+    </div>`}
+  </section>
+  <p class="note">Último día con datos: <span class="num">${esc(ldate)}</span> · Moneda: ${esc(cur)}</p>
+  <section style="display:flex;flex-direction:column;gap:10px">
+    <div class="rank-head"><h2>Locales (${locs.length})</h2>
+      <div class="sort" role="group" aria-label="Ordenar">
+        <button type="button" data-sort="mtd" aria-pressed="${sortBy==='mtd'}">Acum. mes</button>
+        <button type="button" data-sort="day" aria-pressed="${sortBy==='day'}">Día</button>
+        <button type="button" data-sort="growth" aria-pressed="${sortBy==='growth'}">Crec. %</button>
+      </div></div>
+    <ol class="rank">${locs.map((l,i)=>`
+      <li class="${!l.mtd?'zero':''}">
+        <span class="pos">${i+1}</span><span class="loc">${esc(l.name)}</span>${pill(l.growth)}
+        <div class="loc-bar"><span style="width:${((l.mtd||0)/max*100).toFixed(1)}%"></span></div>
+        <div class="loc-nums"><span>Mes <b class="num">${money(l.mtd)}</b></span><span>Día <b class="num">${money(l.day)}</b></span></div>
+        ${l.ideal!=null?`<div class="loc-nums loc-ideal"><span>Cumpl. <b class="num">${pct(l.cumpl)}</b> · Ideal <b class="num">${pct(l.ideal)}</b></span>${gapPill(l.cumpl,l.ideal)}</div>`:''}
+      </li>`).join('')}</ol>
+  </section>`;
+}
+
+function render(){
+  renderTabs();
+  if(!DATA){return}
+  $('#asof').textContent=DATA.asOf||'';
+  const fresh=$('#fresh');
+  const hrs=(Date.now()-new Date(DATA.extractedAt).getTime())/36e5;
+  fresh.innerHTML=`<span class="dot${hrs>12?' old':''}"></span><span>Sincronizado ${esc(ago(DATA.extractedAt))} · Excel guardado ${esc(fmtDateTime(DATA.fileModified))}</span>`;
+  const seg=(DATA.segments||[]).find(s=>slug(s.name)===tab);
+  $('#view').innerHTML=seg?renderSeg(seg):renderResumen();
+  $('#foot').innerHTML=`<span>${esc(DATA.note||'')}</span><span>Fuente: ${esc(DATA.sourceFile||'')} · solapa Resumen Móvil</span>`;
+}
+$('#view').addEventListener('click',e=>{
+  const s=e.target.closest('[data-sort]'); if(s){sortBy=s.dataset.sort;render();return}
+  const g=e.target.closest('[data-go]'); if(g)go(g.dataset.go);
+});
+
+function showEmpty(title,msg){
+  $('#view').innerHTML=`<div class="empty"><h2>${esc(title)}</h2><p class="note">${esc(msg)}</p></div>`;
+  $('#fresh').innerHTML='<span class="dot old"></span><span>Sin datos</span>';
+  $('#asof').textContent='';
+}
+
+const KEY_STORE='tcs-movil-key';
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const toB64=buf=>btoa(String.fromCharCode(...new Uint8Array(buf)));
+let ENV=null;
+async function deriveRaw(pw){
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
+  return crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:b64(ENV.salt),iterations:ENV.iter},base,256);
+}
+async function openWith(raw){
+  const key=await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['decrypt']);
+  const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(ENV.iv)},key,b64(ENV.ct));
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+function store(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
+function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function start(d){DATA=d;render();setInterval(()=>{if(DATA)render()},60000)}
+function lock(msg){
+  $('#tabs').innerHTML='';
+  $('#asof').textContent='';
+  $('#fresh').innerHTML='<span class="dot old"></span><span>Contenido protegido</span>';
+  $('#view').innerHTML=`<form class="lock" id="lock-form" autocomplete="off">
+    <h2>Ingresá la contraseña</h2>
+    <p class="note">Los datos de venta están encriptados. Pedile la contraseña a Tamara.</p>
+    <label class="label" for="pw">Contraseña</label>
+    <input id="pw" type="password" inputmode="text" autocomplete="current-password" required>
+    <label class="remember"><input id="remember" type="checkbox" checked> Recordar en este dispositivo</label>
+    <button type="submit" id="unlock">Ver ventas</button>
+    <p class="err" id="err" role="alert">${esc(msg||'')}</p>
+  </form>`;
+  $('#lock-form').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=$('#unlock'); btn.disabled=true; btn.textContent='Abriendo…'; $('#err').textContent='';
+    try{
+      const raw=await deriveRaw($('#pw').value);
+      const d=await openWith(raw);
+      store(KEY_STORE,$('#remember').checked?toB64(raw)+'|'+ENV.salt:null);
+      start(d);
+    }catch(err){btn.disabled=false;btn.textContent='Ver ventas';$('#err').textContent='Contraseña incorrecta. Probá de nuevo.';$('#pw').select()}
+  });
+  setTimeout(()=>{try{$('#pw').focus()}catch(e){}},50);
+}
+(async()=>{
+  const h=(location.hash||'').slice(1); if(h)tab=h;
+  try{ENV=JSON.parse(document.getElementById('snap').textContent)}catch(e){ENV=null}
+  if(!ENV||!ENV.ct){showEmpty('Todavía no hay datos','La primera carga desde el Excel aparece acá apenas corra la actualización.');return}
+  if(!window.crypto?.subtle){showEmpty('Navegador no compatible','Abrí el link en Chrome, Safari o Edge actualizados.');return}
+  const saved=load(KEY_STORE);
+  if(saved){
+    const [k,salt]=saved.split('|');
+    if(salt===ENV.salt){try{start(await openWith(b64(k)));return}catch(e){}}
+    store(KEY_STORE,null);
+  }
+  lock();
+})();
+</script>
+
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}</script>
+</body></html>

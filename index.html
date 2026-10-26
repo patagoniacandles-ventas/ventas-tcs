@@ -84,6 +84,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .ideal-line{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
 .ideal-line b{color:var(--ink);font-weight:500}
 .loc-ideal{align-items:center;flex-wrap:wrap}
+.presu-row{border-top:1px dashed var(--line);padding-top:8px}
 .loc-ideal .pill{font-size:.72rem;padding:1px 6px}
 .goal-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
 h2{font-family:var(--f-display);font-stretch:85%;font-weight:700;font-size:1.1rem;margin:0}
@@ -195,6 +196,7 @@ function renderResumen(){
         <div><div class="label">Acum. mes</div><div class="num big">${money(r.mtd)}</div></div>
         <div><div class="label">Venta ${fd(segMap[key]?.lastDate||lastAll())}</div><div class="num big">${money(r.day)}</div></div>
       </div>
+      ${segMap[key]?.kpis?.ideal?.presu?`<div class="ideal-line"><span>Presupuesto <b class="num">${money(segMap[key].kpis.ideal.presu)}</b></span><span>Cumpl. <b class="num">${pct(segMap[key].kpis.ideal.presuCumpl)}</b></span></div>`:''}
       ${segMap[key]?.kpis?.axt?.mtd!=null?`<div class="ideal-line"><span>AXT mes <b class="num">${ax(segMap[key].kpis.axt.mtd)}</b></span>${segMap[key].kpis.axt.crec!=null?`<span>vs año ant.</span>${pill(segMap[key].kpis.axt.crec)}`:''}</div>`:''}
       ${segMap[key]?.kpis?.ideal?`<div class="ideal-line"><span>Cumpl. <b class="num">${pct(segMap[key].kpis.ideal.real)}</b></span><span>Ideal <b class="num">${pct(segMap[key].kpis.ideal.ideal)}</b></span>${gapPill(segMap[key].kpis.ideal.real,segMap[key].kpis.ideal.ideal)}</div>`:''}
     </button>`}).join('');
@@ -216,6 +218,7 @@ function goalIdeal(k,obj){
       <div><span class="label">Cumplimiento real</span><span class="num big">${pct(real)}</span></div>
       <div><span class="label">Ideal a la fecha</span><span class="num big ideal-num">${pct(ideal)}</span></div>
     </div>
+    ${g.presu?`<div class="goal-row presu-row"><span class="label">Presupuesto</span><span class="num mid">${full(g.presu)}</span></div><div class="goal-row"><span class="sub">Cumplimiento vs presupuesto</span><span class="num mid"><b>${pct(g.presuCumpl)}</b></span></div>`:''}
     <div class="track" role="img" aria-label="Real ${pct(real)}, ideal ${pct(ideal)}"><div class="fill" style="width:${w(real)}%"></div><span class="ideal-mark" style="left:${w(ideal)}%"></span></div>
     <div class="goal-row">${gapPill(real,ideal)}<span class="note">Barra = real · línea = ideal · GAP mensual ${esc(g.mes||'')} ${esc(g.anio||'')}</span></div>
   </div>`;
@@ -253,6 +256,7 @@ function renderSeg(s){
         <span class="pos">${i+1}</span><span class="loc">${esc(l.name)}</span>${pill(l.growth)}
         <div class="loc-bar"><span style="width:${((l.mtd||0)/max*100).toFixed(1)}%"></span></div>
         <div class="loc-nums"><span>Mes <b class="num">${money(l.mtd)}</b></span><span>${dl} <b class="num">${money(l.day)}</b></span></div>
+        ${l.obj?`<div class="loc-nums"><span>Objetivo <b class="num">${money(l.obj)}</b></span></div>`:''}
         ${l.axt&&l.axt.mtd!=null?`<div class="loc-nums loc-ideal"><span>AXT mes <b class="num">${ax(l.axt.mtd)}</b> · ${dl} <b class="num">${ax(l.axt.day)}</b></span>${l.axt.crec!=null?pill(l.axt.crec):''}</div>`:''}
         ${l.ideal!=null?`<div class="loc-nums loc-ideal"><span>Cumpl. <b class="num">${pct(l.cumpl)}</b> · Ideal <b class="num">${pct(l.ideal)}</b></span>${gapPill(l.cumpl,l.ideal)}</div>`:''}
       </li>`).join('')}</ol>
